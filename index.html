@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>NandGame ASM Emulator</title>
+		<link rel="stylesheet" href="style.css">
+		<link rel="manifest" href="manifest.webmanifest" />
+		<link rel="shortcut icon" href="ico16.png" />
+	</head>
+	<body style="overflow-y: none; padding: 0px;">
+		<row style="overflow-y: none;">
+			<relaxrow id="menubar">
+				<button id="save" onclick="save(filename)">Save</button>
+				<button onclick="save(prompt('project name'))">Save As</button>
+				<button id="upload" onclick="upload(prompt('project name'))">Upload</button>
+				<button onclick="window.location = 'browser.html#local'">Load</button>
+				<button onclick="window.location = 'browser.html'">Browse...</button>
+				<p id="filename">Untitled*</p>
+			</relaxrow>
+			<div class="relative"><textarea style="tab-size: 4;" name="" id="textarea" cols="60" rows="20">
+# Assembler code 
+A = 1
+D = A
+
+A = 0x7FFF
+*A = D
+
+A = 2
+D = A
+
+A = 0x7FFF
+*A = D
+
+A = 0
+JMP
+</textarea>
+				<info id="show" hidden>Show
+					<tip>Click this to show the side panel</tip>
+				</info>
+			</div>
+			<div id="sidepanel" style="overflow-y:scroll;flex:0 0 637px">
+				<relaxrow>
+					<span>
+						<button id="gobutton">Start Code</button>
+						<button hidden id="stopbutton">Stop Code</button>
+						<button disabled id="stepbutton">Step</button>
+						<button class="tip" id="clearbtn">Reset
+							<tip>Reset registers<br>and ram</tip>
+						</button>
+						<button class="tip" id="fullscreen" disabled onclick='document.getElementsByTagName("disp")[0].requestFullscreen()'>Fullscreen
+							<tip>Fullscreen the graphics<br>Click on GPU to toggle</tip>
+						</button>
+						<button id="hide" class="tip">Hide
+							<tip>Hide the side panel and<br>fullscreen the editor</tip>
+						</button>
+						<br>
+						<pre id="regs"></pre>
+					</span>
+					<pre id="sysinfo">
+		Settings:		
+CPU: <a id="cpuspeed" href="javascript:void(0)" onclick="cycleCPU()">60 Hz</a>
+GFX: <a id="gputype" href="javascript:void(0)" onclick="cycleGPU()">none</a></pre>
+					<pre id="sysinfo">
+        Other:        
+TODO: <a href="todo.html">list</a></pre>
+				</relaxrow>
+				<relaxrow><pre id="mem"></pre>
+					<disp>
+						<canvas width=512 height=256 id="display"></canvas>
+						<canvas width=512 height=256 id="displayc"></canvas>
+					</disp>
+				</relaxrow>
+				<script src="script.js"></script>
+				<span hidden>
+					
+				</span>
+				<!--
+				<br>
+				<hr>
+				<pre>Devices:</pre>
+					<button>Add Button</button>
+					<button>Add Keybind</button>
+				<br>
+					<button>Add Decimal</button>
+					<button>Add 7-Segment</button>
+					<button>Add 4x4 Screen</button>
+				<block id="inputs">
+					<mono id="sysinfo">
+button
+<dim>0f27</dim>
+<button class="bigredbutton"></button></mono>
+					<mono id="sysinfo">
+button pad
+<dim>0f27</dim>
+<table class="buttonpad">
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+</table></mono>
+					<mono id="sysinfo">
+keybind
+<dim>0f27</dim>
+<button class="bigkey">A</button></mono>
+					<mono id="sysinfo">
+decimal
+<dim>0f27</dim>
+<div class="biginput">0</div></mono>
+					<mono id="sysinfo">
+7-segment
+<dim>0f27</dim>
+<row>
+	<table>
+		<tr>
+			<td></td>
+			<td class="wides on"></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="talls on"></td>
+			<td></td>
+			<td class="talls"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td class="wides on"></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="talls on"></td>
+			<td></td>
+			<td class="talls"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td class="wides"></td>
+			<td></td>
+			<td class="dots"></td>
+		</tr>
+	</table>
+	<table>
+		<tr>
+			<td></td>
+			<td class="wides"></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="talls"></td>
+			<td></td>
+			<td class="talls"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td class="wides"></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td class="talls"></td>
+			<td></td>
+			<td class="talls"></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td class="wides"></td>
+			<td></td>
+			<td class="dots"></td>
+		</tr>
+	</table>
+</row></mono>
+					<mono id="sysinfo">
+4x4 screen
+<dim>0f27</dim>
+<table class="screen">
+	<tr>
+		<td class="on"></td>
+		<td></td>
+		<td></td>
+		<td class="on"></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td class="on"></td>
+		<td></td>
+		<td></td>
+		<td class="on"></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td class="on"></td>
+		<td class="on"></td>
+		<td></td>
+	</tr>
+</table></mono>
+				</block>
+				-->
+				<hr>
+				<table>
+					<thead><tr><th colspan="16" class="relative"><info>i<tip>Nandgame instruction model</tip></info>Bit flags</th></tr><tr><th colspan="1"></th><th colspan="2">-</th><th colspan="1"></th><th colspan="1">-</th><th colspan="5">operation</th><th colspan="3">target</th><th colspan="3">jump</th></tr><tr><th>ci</th><th>-</th><th>-</th><th>*</th><th>-</th><th>u</th><th>op1</th><th>op0</th><th>zx</th><th>sw</th><th>a</th><th>d</th><th>*a</th><th>lt</th><th>eq</th><th>gt</th></tr></thead>
+				</table>
+				<div id="quickref">
+				<p>
+					<b>Assembler quick reference (modified from <a href="https://nandgame.com">nandgame.com</a>)	</b>
+				</p>
+				<p>Syntax is <code>
+						<i>destination</i> = <i>calculation</i> ; <i>jump-condition </i>
+					</code>Destination and jump-condition are optional. </p>
+				<p>
+					<code>D</code> and <code>A</code> are the two registers. <code> *A</code> indicate the value in RAM at the address contained in <code>A</code>.
+				</p>
+				<b>Examples:</b>
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<code>D = D + 1</code>
+							</td>
+							<td>Calculate D + 1 and store the result in D.</td>
+						</tr>
+						<tr>
+							<td>
+								<code>D - 1 ; JGE</code>
+							</td>
+							<td>Calculate D + 1. Jump if the result is greater than 0. (Result is not stored.)</td>
+						</tr>
+						<tr>
+							<td>
+								<code>A = 1234</code>
+							</td>
+							<td>Store the number 1234 in the A register.</td>
+						</tr>
+						<tr>
+							<td>
+								<code># Hello</code>
+							</td>
+							<td>Comment - ignored by assembler</td>
+						</tr>
+					</tbody>
+				</table>
+				<p></p>
+				<b>Calculations</b>
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<code>D + A</code>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>D - A</code>
+								<i> or </i>
+								<code>A - D</code>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>D &amp; A</code>
+							</td>
+							<td>(Bitwise and)</td>
+						</tr>
+						<tr>
+							<td>
+								<code>D | A</code>
+							</td>
+							<td>(Bitwise or)</td>
+						</tr>
+						<tr>
+							<td>
+								<code>A+1</code>
+								<i> or </i>
+								<code>D+1</code>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>A-1</code>
+								<i> or </i>
+								<code>D-1</code>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>-A</code>
+								<i> or </i>
+								<code>-D</code>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<code>~A</code>
+								<i> or </i>
+								<code>~D</code>
+							</td>
+							<td>(Bitwise inversion)</td>
+						</tr>
+						<tr>
+							<td>
+								<code>1</code>
+								<i> or </i>
+								<code>0</code>
+								<i> or </i>
+								<code>-1</code>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<p>In all cases can <code>*A</code> be used instead of <code>A</code>. </p>
+				<b>Destinations</b>
+				<p>Any combination of <code>D</code>, <code>A</code> and <code>*A</code> can be used as destination. Multiple destinations are comma separated, e.g. <code>D, A = 1</code>. </p>
+				<b>Jump conditions</b>
+				<table>
+					<tbody>
+						<tr>
+							<td></td>
+							<td>Jump when result of calculation is:</td>
+						</tr>
+						<tr>
+							<td>
+								<code>JEQ</code>
+							</td>
+							<td>equal to 0</td>
+						</tr>
+						<tr>
+							<td>
+								<code>JNE</code>
+							</td>
+							<td>not equal to 0</td>
+						</tr>
+						<tr>
+							<td>
+								<code>JGT</code>
+							</td>
+							<td>greater than 0</td>
+						</tr>
+						<tr>
+							<td>
+								<code>JGE</code>
+							</td>
+							<td>greater than or equal to 0</td>
+						</tr>
+						<tr>
+							<td>
+								<code>JLT</code>
+							</td>
+							<td>less than 0</td>
+						</tr>
+						<tr>
+							<td>
+								<code>JLE</code>
+							</td>
+							<td>less than or equal to 0</td>
+						</tr>
+						<tr>
+							<td>
+								<code>JMP</code>
+							</td>
+							<td>Unconditional jump (regardless of the calculation result.)</td>
+						</tr>
+					</tbody>
+				</table>
+				<p></p>
+				<b>Number instructions</b>
+				<p>
+					<code>A</code> can be directly assigned a number. Example: <code>A = 47</code>. <br>Numbers in hexadecimal is prefixed with <code>0x</code>, e.g: <code>A = 0x7FFF</code>
+					<br>Numbers in binary is prefixed with <code>0b</code>, e.g: <code>A = 0b010111</code>. Underscores can be used to separate digit groups, e.g: <code>A = 0b_0101_1100</code>.
+				</p>
+				<p></p>
+				<b>Comments</b>
+				<p>Lines staring with <code>#</code> are ignored by the assembler. They can be used for comments and documentation. </p>
+				<b>Labels</b>
+				<p>The keyword <code>LABEL</code> followed by a name makes the name represent the address of the following instruction. This address can be assigned to <code>A</code> before a jump, e.g. <code>A = LOOP</code>. </p>
+				<b>Defines</b>
+				<p>The keyword <code>DEFINE</code> followed by a name and a number will cause the name to be replaced with the number when it occurs in other instructions. For example the two lines: <br>
+					<code>DEFINE foo 0x7FFF</code>
+					<br>
+					<code>A = foo</code>
+					<br>Is equivalent to: <code> A = 0x7FFF</code>
+				</p>
+				<b>Macros</b>
+				<p>The keyword <code>MACRO</code> followed by a name and any amount of arguments will define a new macro. Typing the macro name and arguments will replace that line with the instructions under the macro definition. Another empty <code>MACRO</code> keyword can be typed to signify the end of a macro. For example: <br>
+					<code>MACRO bar amount</code>
+					<br>
+					<code>A = {amount}</code>
+					<br>
+					<code>MACRO</code>
+					<br>
+					<br>
+					<code>bar 0x7FFF</code>
+					<br>Defines a macro, and inserts the equivalent to: <code> A = 0x7FFF</code>. When inserting arguments into a macro, you must surround the argument name with curly braces for it to be replaced. Macros cannot be used until after they have been defined.
+				</p>
+				<b>Multiple targets</b>
+				<p>It it possible to assign a result to multiple registers.</p>
+				<p>E.g. <code>D, A = D - *A</code> The result of the calculation will be written to both A and D. </p>
+				<p>Any combination of A, D and *A can be specified as destination.</p>
+				</div>
+			</div>
+		</row>
+	<script src="lntextarea.js"></script>
+	</body>
+</html>

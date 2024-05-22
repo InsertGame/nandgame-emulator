@@ -1,0 +1,16 @@
+{
+  "name": "NandGame ASM Sandbox",
+  "short_name": "NandGame ASM",
+  "description": "A powerful emulator for the NandGame virtual assembly PC.",
+  "icons": [
+    {
+      "src": "ico.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/index.html",
+  "display": "fullscreen",
+  "theme_color": "#222",
+  "background_color": "#222"
+}

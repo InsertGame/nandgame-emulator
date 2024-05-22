@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Browse</title>
+		<link rel="stylesheet" href="style.css">
+		<link rel="manifest" href="manifest.webmanifest" />
+		<link rel="shortcut icon" href="ico16.png" />
+	</head>
+	<body>
+		<h1 id="title">TODO List</h1>
+		<pre style="padding: 5px;" id="sysinfo">
+Some way of using sound, maybe memory mapped
+	4 different sound "channels"
+	each 16 bit number represents a pitch
+	3 squares and a noise channel maybe
+			
+Keyboard and mouse input, one byte memory mapped, 16 buttons,
+	up, down, left, right, z (or c), x, enter (or return), shift,
+	w, a, s, d, left click (or q), right click (or e), tilda (~), space
+			
+2 signed 16 bit values signifying mouse distance x and distance y
+	values increase or decrease based on mouse movement, not reset automatically
+	as soon as these values are set, we can assume the mouse is being used, and we can lock it on the display window
+			
+TEST keyword, testing condition of values or doing repetative actions, would mainly be used in macros
+	you can use <code>\</code> to make instructions span multiple lines
+	EX: <code>TEST if {arg1} equal A insert A = {arg2}</code>
+	EX: <code>TEST repeat 5 insert A = {index}\</code>
+	    <code>*A = A</code>
+
+Extended DEFINE keyword, for changing the defined constant
+	instead of just doing <code>DEFINE constname &lt;value></code>, you can substitute the value for a symbol
+	<code>=</code> allows you to set the value to a different one
+	<code>+</code> allows you to increase the value by something
+	<code>-</code> allows you to decrease the value by something
+	this allows you to have compile-time updating constants
+	new optional syntax of <code>DEFINE constname &lt;op> &lt;value></code>
+
+Binary file editor
+	maybe embed a version of qbrt into the site?
+	just for storing bytes
+		
+Use <code>@"filename"</code> to include other files
+	would be the names to other locally stored files
+	when including a binary file, you can use <code>@"filename", macroname</code> to generate a macro titled <code>macroname</code> 
+	macro would have one parameter, which loads the binary file into the location in memory specified
+
+Make engine compiled instead of interpreted
+	currently the engine is interpreted, and can run pretty fast as is
+	however its currently an interpreted system on top of another interpreted language: javascript
+	if i can generate javascript code from the assembly it could boost performance a bit
+	engine already uses "compiled" code thats just interpreted, generates an array of functions
+
+Uploading files
+	make uploading your project's file possible, send it to a server others can browse
+	uploads included files as well, but only the main one shows up on the list
+	can download online projects and view them, downloads related files as well (and replaces name conflicts as well)
+
+ROM Banks
+	your code can only be 65536 bytes big
+	rom banks allow you to swap out different "banks" or files
+	would use the 3 unused bits in the instruction to add 8,
+	having 8 banks allows for 524288 bytes total
+	could be access by simply adding a number after the jump condition
+	EX: <code>D = D - *A; JNE 3</code> jumps to bank 4
+</pre>
+	</body>
+</html>

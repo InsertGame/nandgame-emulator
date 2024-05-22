@@ -1,0 +1,329 @@
+:root {
+	color-scheme: dark;
+	font-size: 12px;
+	box-sizing: border-box;
+	font-family: system-ui, -apple-ui, sans-serif;
+}
+body {
+	margin: 0px;
+	position: absolute;
+	left: 0px;
+	right: 0px;
+	top: 0px;
+	bottom: 0px;
+}
+row {
+	display: flex;
+	justify-content: stretch;
+	flex-direction: row;
+	height: 100%;
+}
+relaxrow {
+	display: flex;
+	flex-direction: row;
+	gap: 5px;
+}
+row > div, row > div > div {
+	flex: 1;
+	height: 100%;
+}
+#mem {
+	border: 1px solid #777;
+	border-radius: 2px;
+	overflow-y: scroll;
+	height: 250px;
+	width: 100px;
+	tab-size: 4;
+}
+#regs, #sysinfo {
+	border: 1px solid #777;
+	border-radius: 2px;
+	height: fit-content;
+	width: fit-content;
+	tab-size: 4;
+}
+#textarea {
+	outline: none;
+	tab-size: 4;
+}
+table th{
+	font-family: monospace;
+	border: 1px solid #777;
+	border-radius: 2px;
+	font-size: 12px;
+}
+.tip, info {
+	position: relative;
+}
+.tip tip, info tip {
+	position: absolute;
+	top: 150%;
+	right: 0px;
+	color: #fffb;
+	background: #000b;
+	opacity: 0;
+	pointer-events: none;
+	transition: opacity 1s;
+	transition-delay: 1s;
+	white-space: pre;
+	font-family: monospace;
+	z-index: 10000;
+	text-align: left;
+}
+#menubar {
+    width: 100%;
+    height: 20px;
+    white-space: pre;
+}
+.tip:hover tip, info:hover tip {
+	transition: opacity 0.2s;
+	transition-delay: 0s;
+	opacity: 1;
+	pointer-events: all;
+}
+button {	
+	font-size: 12px;
+	font-family: monospace;
+	padding: 0px;
+	margin: 2px 0px;
+}
+info, button {
+	border: 1px dotted currentcolor;
+	background: transparent;
+	font-family: monospace;
+}
+info {
+	position: absolute;
+	right: 2px;
+	top: 2px;
+}
+info, a, button {
+	cursor: pointer;
+	color: #9e9eff;
+	user-select: none;
+}
+info:active, a:active, button:active {
+	color: #ff9393;
+}
+code {
+	color: #ff9393;
+	white-space: nowrap;
+}
+.relative {
+	position: relative;
+}
+#display {
+	background: #003300;
+	opacity: 0;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+}
+#displayc {
+	background: #000;
+	opacity: 0;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+}
+canvas {
+	image-rendering: -moz-crisp-edges;
+	image-rendering: -webkit-crisp-edges;
+	image-rendering: pixelated;
+	image-rendering: crisp-edges;
+}
+info#i {
+	position: none;
+}
+disp {
+	position: relative;
+	width: 512px;
+	height: 256px;
+}
+button[disabled] {
+	color: #9e9eff77;
+	cursor: not-allowed;
+}
+
+#filebrowser {
+	width: 100% !important;
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+}
+
+* {
+	box-sizing: border-box;
+}
+
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+}
+
+body {
+	padding: 10px;
+}
+
+f {
+	cursor: pointer;
+	color: #9e9eff;
+	outline: 1px solid #9e9eff;
+	padding: 5px;
+	text-align: center;
+}
+
+f > * {
+	margin: 0 auto;
+}
+
+f .previewpane {
+	border: 1px solid #7770;
+	border-radius: 2px;
+	width: 100%;
+	max-width: 500px;
+	tab-size: 4;
+	margin: 0px auto;
+	padding: "5px";
+	color: #777;
+	height: 0px;
+	overflow: hidden;
+	transition: 0.2s ease-in-out 0s;
+	text-align: left;
+}
+f:hover .previewpane {
+	margin-top: 10px;
+	border: 1px solid #777;
+	height: 58px;
+	transition: 0.2s ease-in-out 0.35s;
+}
+#inputs {
+	gap: 5px;
+	display: flex;
+}
+
+#inputs #sysinfo {
+	min-width: 100px;
+	height: 100px;
+	text-align: center;
+}
+
+dim {
+	opacity: 0.75;
+}
+
+.bigredbutton {
+	background: maroon;
+	border: none;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	font-family: monospace;
+	font-size: 30px;
+	color: white;
+}
+.bigkey {
+	background: #555;
+	border: none;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	font-family: monospace;
+	font-size: 30px;
+	color: lightgray;
+}
+.bigredbutton:hover {
+	background: #f11;
+	box-shadow: 0px 0px 5px 5px #f005;
+	z-index: 3;
+}
+.bigredbutton:active {
+	background: maroon;
+	box-shadow: none;
+}
+
+.biginput {
+	width: 90px;
+	text-align: center;
+	font-family: monospace;
+	font-size: 30px;
+	outline: none;
+	background: transparent;
+	margin: 0 auto;
+}
+
+block {
+	display: block;
+}
+
+mono {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	font-family: monospace;
+}
+
+table.outline {
+	border-collapse: collapse;
+}
+table.outline td {
+	border: 1px solid white;
+}
+
+.wides {
+	width: 20px;
+	height: 5px;
+	background: #050;
+}
+.talls {
+	height: 20px;
+	width: 5px;
+	background: #050;
+}
+.dots {
+	height: 5px;
+	width: 5px;
+	background: #050;
+}
+
+table.screen td {
+	background: #050;
+	width: 10px;
+	height: 10px;
+	border-radius: 2.5px;
+}
+
+table.buttonpad td {
+	background: maroon;
+	width: 14px;
+	height: 14px;
+	cursor: pointer;
+	user-select: none;
+	border-radius: 2px;
+}
+table.buttonpad td:hover {
+	background: #f11;
+	box-shadow: 0px 0px 3px 3px #f005;
+	z-index: 3;
+}
+table.buttonpad td:active {
+	background: maroon;
+	box-shadow: none;
+}
+
+.wides.on, .talls.on, .dots.on {
+	background: #3f3;
+	box-shadow: 0px 0px 4px 4px #0f05;
+	z-index: 3;
+}
+
+table.screen td.on {
+	background: #3f3;
+	box-shadow: 0px 0px 4px 4px #0f03;
+	z-index: 3;
+}
